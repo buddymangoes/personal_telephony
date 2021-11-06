@@ -12,9 +12,6 @@ server_url = os.environ['SERVER_URL']
 
 app = Flask(__name__)
 
-# TODO: Secure app by validating Incoming Twilio Requests
-#  -> https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-flask-app-by-validating-incoming-twilio-requests
-
 # DEBUG: Redirects for testing
 REDIRECT_RR = False
 REDIRECT_VM = True
@@ -24,7 +21,7 @@ REDIRECT_VM = True
 def voice_answer():
 	# Could be used to perform advanced call flow
 	call_sid = request.values['CallSid']
-	caller = request.values['Caller']
+	caller = request.values['Caller']  # TODO: Perform call flow
 	
 	resp = VoiceResponse()
 	resp.play(url_for('wait_connected'))
@@ -88,8 +85,6 @@ def wait_connected():
 
 @app.route('/vm_greeting')
 def vm_greeting():
-	# TODO: Might be cool to pick one of a few VM greetings?
-	
 	try:
 		return send_from_directory(os.getcwd() + '\\assets\\audio\\', 'Unavailable_1.mp3', as_attachment=True)
 	except Exception as e:
@@ -105,17 +100,5 @@ def recording_complete():
 	return None
 
 
-# NOTE: May be obselete
-@app.route('/beep')
-def beep():
-	try:
-		return send_from_directory(os.getcwd() + '\\assets\\audio\\', 'Beep.wav', as_attachment=True)
-	except Exception as e:
-		print(e)
-		return str(e)
-
-
 if __name__ == '__main__':
-	# TODO 1: Consider encrypting using SSL?
-	# TODO 2: Consider deploying to production when all is done
 	app.run(debug=True)

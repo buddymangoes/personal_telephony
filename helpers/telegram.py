@@ -14,10 +14,9 @@ bot = Bot(token=bot_token)
 
 
 def upload_vm(recording_sid, call_sid, recording_url):
-	# TODO: Get name from lookup table using Google Contacts & MongoDB
-	name = None
 	
-	# TODO: Maybe lookup this information using recording_sid
+	# TODO: Lookup after completing issue: #12
+	name = None
 	number = None
 	timestamp = None
 	
@@ -29,7 +28,6 @@ def upload_vm(recording_sid, call_sid, recording_url):
 										f'Name: {name}\n'
 										f'Number: {number}\n')
 	
-	# TODO: Handle these exceptions more appropriately
 	except BadRequest as e:
 		# Raised when Telegram could not process the request correctly
 		print(e)
@@ -58,12 +56,10 @@ def upload_vm(recording_sid, call_sid, recording_url):
 		print(e)
 		raise
 	
-	else:  # Post was successful
-		# TODO: Delete the voice recording from twilio
+	else:
+		# Post was successful
+		# DEBUG
 		# delete_recording(recording_sid)
-		
-		# TODO: Output this to the database
-		
 		file_id = msg.voice.file_id
 
 
